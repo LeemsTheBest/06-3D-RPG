@@ -48,12 +48,19 @@ Music made using Musescore 3.6.2
 
 Assets downloaded from:
 https://kenney.nl/assets/space-kit
+
 https://cc0textures.com/view?id=Metal032
+
 https://cc0textures.com/view?id=Metal033
+
 https://cc0textures.com/view?id=Metal034
+
 https://cc0textures.com/view?id=Porcelain001
+
 https://kenney.nl/assets/blaster-kit
+
 https://www.patreon.com/posts/blender-export-16916038
+
 
 Includes code from https://github.com/BL-MSCH-C220-S21/3D-Character
 
