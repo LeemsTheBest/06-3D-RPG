@@ -1,0 +1,184 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Terrain.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Target/Target.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/3D-Character-main/Player/RayCast.gd" type="Script" id=4]
+[ext_resource path="res://NPC/NPC.tscn" type="PackedScene" id=5]
+[ext_resource path="res://NPC/NPC.gd" type="Script" id=6]
+[ext_resource path="res://UI/Dialogue.gd" type="Script" id=7]
+[ext_resource path="res://UI/UI.gd" type="Script" id=8]
+[ext_resource path="res://Drone/drone.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Assets/Happy_Times_Fun.ogg" type="AudioStream" id=10]
+[ext_resource path="res://Assets/ow.wav" type="AudioStream" id=11]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.5
+height = 1.0
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 1, 0, 0, 1 )
+emission_enabled = true
+emission = Color( 1, 0, 0, 1 )
+emission_energy = 4.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="SphereShape" id=3]
+radius = 4.87047
+
+[node name="Game" type="Spatial"]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( -0.0492334, 0, -0.998787, 0, 1, 0, 0.998787, 0, -0.0492334, 53.473, 0.520724, -20.0523 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="Pivot" type="Position3D" parent="Player"]
+
+[node name="Camera" type="Camera" parent="Player/Pivot"]
+transform = Transform( -1, 5.65818e-08, -3.20891e-07, 0, 0.984808, 0.173648, 3.25841e-07, 0.173648, -0.984808, 0, 5, -8 )
+
+[node name="RayCast" type="RayCast" parent="Player/Pivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, 100 )
+collision_mask = 2147483649
+script = ExtResource( 4 )
+
+[node name="Reticule" type="Position3D" parent="Player/Pivot/RayCast"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Player/Pivot/RayCast/Reticule"]
+layers = 2
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="lowpoly_scene" parent="." instance=ExtResource( 2 )]
+transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0 )
+
+[node name="Target_container" type="Spatial" parent="."]
+visible = false
+
+[node name="Target" parent="Target_container" instance=ExtResource( 3 )]
+transform = Transform( 0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, -27, 4, 9 )
+
+[node name="Target2" parent="Target_container" instance=ExtResource( 3 )]
+transform = Transform( 0.343578, 0, -0.939124, 0, 1, 0, 0.939124, 0, 0.343578, 11.809, 3.52103, -54.2121 )
+collision_layer = 2147483649
+collision_mask = 2147483649
+
+[node name="Target3" parent="Target_container" instance=ExtResource( 3 )]
+transform = Transform( 0.682764, 0, -0.730639, 0, 1, 0, 0.730639, 0, 0.682764, 42.6836, 1.40499, -28.265 )
+
+[node name="Target4" parent="Target_container" instance=ExtResource( 3 )]
+transform = Transform( 0.0199303, -0.999801, 0, 0.909324, 0.0181267, 0.415694, -0.415611, -0.00828489, 0.909505, -21.7751, 2.24028, -15.3653 )
+
+[node name="Target5" parent="Target_container" instance=ExtResource( 3 )]
+transform = Transform( 0.215404, 0.799595, -0.560579, 0.639058, 0.318636, 0.700054, 0.738381, -0.509036, -0.442352, 24.4625, 3.03359, -21.3717 )
+
+[node name="Drone_container" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 100 )
+
+[node name="drone" parent="Drone_container" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.4968, -16.618, -30.0438 )
+collision_layer = 3
+collision_mask = 3
+
+[node name="NPC" parent="." instance=ExtResource( 5 )]
+transform = Transform( 0.160777, 0, 0.986991, 0, 1, 0, -0.986991, 0, 0.160777, 49.0345, 0.732847, -20.024 )
+script = ExtResource( 6 )
+
+[node name="Area" type="Area" parent="NPC"]
+transform = Transform( 0.999971, 0, 0.00762701, 0, 1, 0, -0.00762701, 0, 0.999971, 0, 0, 0 )
+collision_layer = 2147483650
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="NPC/Area"]
+transform = Transform( 1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0.0292625, 0 )
+shape = SubResource( 3 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource( 8 )
+
+[node name="Damage" type="ColorRect" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 1, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="UI"]
+anchor_right = 1.0
+margin_bottom = 30.0
+color = Color( 0, 0, 0, 0.501961 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="UI"]
+margin_left = 10.0
+margin_right = 510.0
+margin_bottom = 30.0
+text = "Score: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Time" type="Label" parent="UI"]
+margin_left = 512.0
+margin_right = 1014.0
+margin_bottom = 30.0
+text = "Timer: 00:00"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="UI"]
+
+[node name="Dialogue" type="Control" parent="UI"]
+visible = false
+light_mask = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="UI/Dialogue"]
+light_mask = 2
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -30.0
+color = Color( 0, 0, 0, 0.501961 )
+
+[node name="Text" type="RichTextLabel" parent="UI/Dialogue"]
+light_mask = 2
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -20.0
+margin_bottom = 10.0
+bbcode_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ow" type="AudioStreamPlayer" parent="UI"]
+stream = ExtResource( 11 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -16.065
+autoplay = true
+[connection signal="body_entered" from="NPC/Area" to="NPC" method="_on_Area_body_entered"]
+[connection signal="body_exited" from="NPC/Area" to="NPC" method="_on_Area_body_exited"]
+[connection signal="timeout" from="UI/Timer" to="UI" method="_on_Timer_timeout"]
+[connection signal="finished" from="UI/ow" to="UI" method="_on_AudioStreamPlayer_finished"]
